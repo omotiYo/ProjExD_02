@@ -21,6 +21,8 @@ def main():
     bk_rect = bk_img.get_rect()
     bk_rect.center = x, y
 
+    vx, vy = +5, +5
+
     bk_img.set_colorkey((0, 0, 0))
     tmr = 0
     while True:
@@ -30,10 +32,12 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        screen.blit(bk_img, bk_rect)
+        bk_rect.move_ip(vx, vy) #練習２
+        screen.blit(bk_img, bk_rect) #爆弾の表示
+
         pg.display.update()
         tmr += 1
-        clock.tick(10) 
+        clock.tick(50) 
 
 
 if __name__ == "__main__":
