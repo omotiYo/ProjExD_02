@@ -57,6 +57,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        
+        #練習５
+        if kk_rct.colliderect(bk_rect):
+            return #ゲームオーバー
             
         #練習３
         key_lst = pg.key.get_pressed()
@@ -75,12 +79,13 @@ def main():
         screen.blit(kk_img, kk_rct)
         bk_rect.move_ip(vx, vy) #練習２
 
+        #練習４
         yoko, tate = check_bound(bk_rect)
         if not yoko: #横方向に画面外だったら
             vx *= -1
         if not tate:
             vy *= -1
-            
+
         screen.blit(bk_img, bk_rect) #練習１、爆弾の表示
 
         pg.display.update()
