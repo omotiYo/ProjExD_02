@@ -13,6 +13,7 @@ delta = {
     pg.K_RIGHT:(+5, 0)
 }
 
+
 def check_bound(rect: pg.Rect): #練習４
     """
     こうかとんRect、爆弾Rectが画面外 or 画面内かを判定する関数
@@ -33,7 +34,21 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+
+    kk_img_sad = pg.image.load("ex02/fig/8.png")
+    kk_img_sad = pg.transform.rotozoom(kk_img_sad, 0, 20)
+
+    kk_imgf = pg.transform.flip(kk_img, True, False) #反転させた鳥
+
+    #演習１
+    kk_img1 = pg.transform.rotozoom(kk_imgf, 0, 2.0) #→押された時の鳥
+    kk_img2 = pg.transform.rotozoom(kk_imgf,- 45, 2.0) #→↓押された時の鳥
+    kk_img3 = pg.transform.rotozoom(kk_imgf, -90, 2.0) #↓押された時の鳥
+    kk_img4 = pg.transform.rotozoom(kk_img, 45, 2.0) #←↓押された時の鳥
+    kk_img5 = pg.transform.rotozoom(kk_img, 0, 2.0) #←押された時の鳥
+    kk_img6 = pg.transform.rotozoom(kk_img, -45, 2.0) #←↑押された時の鳥
+    kk_img7 = pg.transform.rotozoom(kk_imgf, 90, 2.0) #↑押された時の鳥
+    kk_img8 = pg.transform.rotozoom(kk_imgf, 45, 2.0) #→↑押された時の鳥
 
     #練習３
     kk_rct = kk_img.get_rect() #こうかとんのrectを生成
@@ -41,14 +56,17 @@ def main():
 
     clock = pg.time.Clock()
 
-    bk_img = pg.Surface((20, 20)) #練習１
+    #練習１
+    bk_img = pg.Surface((20, 20)) 
+
     pg.draw.circle(bk_img, (255, 0, 0), (10, 10), 10)
     x = random.randint(0, WIDTH)
     y = random.randint(0, HEIGHT)
     bk_rect = bk_img.get_rect()
     bk_rect.center = x, y
 
-    vx, vy = +5, +5 #練習２
+    #練習２
+    vx, vy = +5, +5 
 
     bk_img.set_colorkey((0, 0, 0))
     tmr = 0
@@ -60,6 +78,7 @@ def main():
         
         #練習５
         if kk_rct.colliderect(bk_rect):
+            screen.blit(kk_img_sad, kk_rct)
             return #ゲームオーバー
             
         #練習３
@@ -76,8 +95,10 @@ def main():
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
 
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, kk_rct)
-        bk_rect.move_ip(vx, vy) #練習２
+        screen.blit(kk_img1, kk_rct)
+
+        #練習２
+        bk_rect.move_ip(vx, vy) 
 
         #練習４
         yoko, tate = check_bound(bk_rect)
@@ -86,7 +107,8 @@ def main():
         if not tate:
             vy *= -1
 
-        screen.blit(bk_img, bk_rect) #練習１、爆弾の表示
+        #練習１
+        screen.blit(bk_img, bk_rect) #爆弾の表示
 
         pg.display.update()
         tmr += 1
